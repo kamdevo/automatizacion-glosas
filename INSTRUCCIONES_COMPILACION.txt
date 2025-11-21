@@ -1,0 +1,124 @@
+═══════════════════════════════════════════════════════════════════════════════
+    INSTRUCCIONES PARA COMPILAR A EJECUTABLE
+    Descargador de GLOSAS - Hospital Universitario del Valle
+═══════════════════════════════════════════════════════════════════════════════
+
+📋 REQUISITOS PREVIOS:
+─────────────────────────────────────────────────────────────────────────────
+1. Python 3.8 o superior instalado
+2. Todas las dependencias instaladas (ver sección INSTALACIÓN DE DEPENDENCIAS)
+3. Archivo credentials.json en la misma carpeta del script
+
+
+📦 INSTALACIÓN DE DEPENDENCIAS:
+─────────────────────────────────────────────────────────────────────────────
+Ejecuta este comando en la terminal (CMD o PowerShell):
+
+    pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client pyinstaller
+
+
+🔨 COMPILAR A EJECUTABLE (.EXE):
+─────────────────────────────────────────────────────────────────────────────
+1. Abre la terminal (CMD o PowerShell) en la carpeta del proyecto:
+
+   cd "C:\Users\Soporte\Desktop\Proyectos HUV\automatizacion glosas"
+
+
+2. Ejecuta el siguiente comando para compilar:
+
+   pyinstaller --onefile --windowed --name "Descargador_GLOSAS_HUV" --add-data "credentials.json;." --icon=NONE glosas_file_downloader.py
+
+
+3. El ejecutable se creará en la carpeta:
+   dist\Descargador_GLOSAS_HUV.exe
+
+
+📝 EXPLICACIÓN DE LOS PARÁMETROS:
+─────────────────────────────────────────────────────────────────────────────
+--onefile          : Crea un solo archivo ejecutable
+--windowed         : No muestra consola de comandos (solo ventanas gráficas)
+--name             : Nombre del ejecutable final
+--add-data         : Incluye credentials.json dentro del ejecutable
+--icon=NONE        : Sin ícono personalizado (opcional: agregar .ico después)
+
+
+📁 DISTRIBUCIÓN AL USUARIO:
+─────────────────────────────────────────────────────────────────────────────
+Entregar únicamente el archivo:
+    ✓ dist\Descargador_GLOSAS_HUV.exe
+
+El usuario NO necesita:
+    ✗ Python instalado
+    ✗ Librerías adicionales
+    ✗ El archivo credentials.json (ya está embebido)
+
+
+⚙️ CONFIGURACIÓN EN EL EQUIPO DEL USUARIO:
+─────────────────────────────────────────────────────────────────────────────
+1. Primera ejecución:
+   - Se abrirá el navegador para autenticación con Gmail
+   - Debe autorizar el acceso a la cuenta: glosasydevoluciones@correohuv.gov.co
+
+2. Ubicación de archivos:
+   - Token de autenticación: %LOCALAPPDATA%\GlosasAutomatizador\token.json
+   - Log de actividad: %LOCALAPPDATA%\GlosasAutomatizador\glosas_downloader.log
+   - IDs procesados: %LOCALAPPDATA%\GlosasAutomatizador\processed_ids.json
+
+3. Archivos descargados:
+   - Se crea un ZIP en el ESCRITORIO con estructura de carpetas organizadas
+
+
+🎨 MEJORAS VISUALES IMPLEMENTADAS:
+─────────────────────────────────────────────────────────────────────────────
+✓ Ventana de progreso con diseño profesional
+  - Header azul con logo del HUV
+  - Íconos descriptivos
+  - Barra de progreso estilizada
+  - Contador de mensajes y archivos en tiempo real
+
+✓ Ventana de selección de fechas mejorada
+  - Diseño moderno con colores corporativos
+  - Botones más grandes y visibles
+  - Valores por defecto (últimos 30 días)
+
+✓ Mensajes informativos con emojis
+  - Más claros y profesionales
+  - Mejor estructura visual
+
+
+📊 ESTRUCTURA DEL ZIP RESULTANTE:
+─────────────────────────────────────────────────────────────────────────────
+GLOSAS_YYYYMMDD_HHMMSS.zip
+├── 2025-Octubre/
+│   ├── Semana_43/
+│   │   ├── 2025-10-22_GLOSAS PRESTADOR...pdf
+│   │   └── 2025-10-23_GLOSAS PRESTADOR...pdf
+│   └── Semana_44/
+└── 2025-Noviembre/
+    ├── Semana_45/
+    └── Semana_47/
+        ├── 2025-11-18_GLOSAS PRESTADOR...pdf
+        └── 2025-11-21_GLOSAS PRESTADOR...pdf
+
+
+⚠️ IMPORTANTE:
+─────────────────────────────────────────────────────────────────────────────
+• Este programa SOLO debe usarse con: glosasydevoluciones@correohuv.gov.co
+• Los nombres de carpetas usan nombres de meses en español
+• Los archivos incluyen la fecha del correo en el nombre
+• Se mantiene registro de archivos ya descargados para evitar duplicados
+
+
+💡 SOLUCIÓN DE PROBLEMAS:
+─────────────────────────────────────────────────────────────────────────────
+Si el ejecutable no funciona:
+1. Verificar que credentials.json sea válido
+2. Revisar el log en: %LOCALAPPDATA%\GlosasAutomatizador\glosas_downloader.log
+3. Ejecutar una vez con Python para ver errores en consola:
+   python glosas_file_downloader.py
+
+
+═══════════════════════════════════════════════════════════════════════════════
+    Desarrollado por: Innovación y Desarrollo HUV
+    Contacto: innovacionydesarrollo@correohuv.gov.co
+═══════════════════════════════════════════════════════════════════════════════
