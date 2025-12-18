@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(pip install:*)",
+      "Bash(pyinstaller:*)"
     ],
     "deny": [],
     "ask": []
