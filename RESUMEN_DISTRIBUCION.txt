@@ -1,0 +1,98 @@
+═══════════════════════════════════════════════════════════════════════════════
+    RESUMEN DE DISTRIBUCIÓN - DESCARGADOR DE GLOSAS HUV
+═══════════════════════════════════════════════════════════════════════════════
+
+📦 ARCHIVOS PARA DISTRIBUCIÓN:
+─────────────────────────────────────────────────────────────────────────────
+
+🪟 WINDOWS:
+   Carpeta: Distribucion_GlosasAutomatizador/
+   Archivo principal: GlosasAutomatizador.exe
+   
+   ✅ Ejecutable standalone (no requiere Python instalado)
+   ✅ Incluye todas las dependencias
+   ✅ Listo para usar
+
+🐧 LINUX:
+   Carpeta: Distribucion_Linux/
+   Archivos incluidos:
+   • glosas_file_downloader.py
+   • credentials.json
+   • lanzador_linux.sh
+   • README_LINUX.md
+   • INSTRUCCIONES_RAPIDAS.txt
+   
+   ⚠️  Requiere Python 3 (generalmente ya instalado)
+   ✅ El lanzador instala dependencias automáticamente
+   ✅ Funciona en Ubuntu, Debian, Zorin, etc.
+
+
+📝 INSTRUCCIONES DE USO:
+─────────────────────────────────────────────────────────────────────────────
+
+WINDOWS:
+1. Doble clic en GlosasAutomatizador.exe
+2. ¡Listo!
+
+LINUX:
+1. chmod +x lanzador_linux.sh
+2. ./lanzador_linux.sh
+3. Confirmar instalación de dependencias (primera vez)
+
+
+🔧 SCRIPTS DE COMPILACIÓN:
+─────────────────────────────────────────────────────────────────────────────
+
+Para recompilar el ejecutable de Windows:
+• build_exe.bat (ejecutar en Windows)
+
+Para Linux:
+• lanzador_linux.sh (no requiere compilación, usa Python directamente)
+
+
+⚠️ NOTAS IMPORTANTES:
+─────────────────────────────────────────────────────────────────────────────
+
+1. Los ejecutables son específicos de cada plataforma:
+   • Windows .exe NO funciona en Linux
+   • Linux NO funciona en Windows
+
+2. El archivo credentials.json es necesario en ambas plataformas
+
+3. Primera ejecución:
+   • Se abre el navegador para autenticación Gmail
+   • Usar cuenta: glosasydevoluciones@correohuv.gov.co
+
+4. Archivos descargados:
+   • Se guardan en el Escritorio
+   • Formato: GLOSAS_YYYYMMDD_HHMMSS.zip
+
+
+📂 ESTRUCTURA DEL PROYECTO:
+─────────────────────────────────────────────────────────────────────────────
+
+automatizacion-glosas/
+├── glosas_file_downloader.py    → Script principal
+├── credentials.json              → Credenciales Google API
+├── requirements.txt              → Dependencias Python
+│
+├── build_exe.bat                 → Compilador Windows
+├── lanzador_linux.sh             → Lanzador Linux
+│
+├── Distribucion_GlosasAutomatizador/  → DISTRIBUCIÓN WINDOWS
+│   ├── GlosasAutomatizador.exe
+│   ├── credentials.json
+│   └── INSTRUCCIONES.txt
+│
+└── Distribucion_Linux/           → DISTRIBUCIÓN LINUX
+    ├── glosas_file_downloader.py
+    ├── credentials.json
+    ├── lanzador_linux.sh
+    ├── README_LINUX.md
+    └── INSTRUCCIONES_RAPIDAS.txt
+
+
+═══════════════════════════════════════════════════════════════════════════════
+    Desarrollado por: Innovación y Desarrollo HUV
+    Contacto: innovacionydesarrollo@correohuv.gov.co
+═══════════════════════════════════════════════════════════════════════════════

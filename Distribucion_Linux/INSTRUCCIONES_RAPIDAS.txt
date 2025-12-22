@@ -1,0 +1,72 @@
+═══════════════════════════════════════════════════════════════════════════════
+    DESCARGADOR DE GLOSAS - HUV (VERSIÓN LINUX)
+    Instrucciones Rápidas de Instalación y Uso
+═══════════════════════════════════════════════════════════════════════════════
+
+🚀 INICIO RÁPIDO:
+─────────────────────────────────────────────────────────────────────────────
+
+1. Dar permisos de ejecución al lanzador:
+   
+   chmod +x lanzador_linux.sh
+
+
+2. Ejecutar el programa:
+   
+   ./lanzador_linux.sh
+
+
+3. El script instalará automáticamente todas las dependencias necesarias
+   (te pedirá confirmación y contraseña de sudo si es necesario)
+
+
+📋 REQUISITOS:
+─────────────────────────────────────────────────────────────────────────────
+• Sistema operativo: Linux (Ubuntu, Debian, Zorin, etc.)
+• Python 3.8 o superior (generalmente ya viene instalado)
+• Conexión a Internet para la primera instalación
+
+
+✅ QUÉ HACE EL LANZADOR AUTOMÁTICAMENTE:
+─────────────────────────────────────────────────────────────────────────────
+• Verifica que Python 3 esté instalado
+• Instala pip3 si no está disponible
+• Instala python3-tk (interfaz gráfica)
+• Instala las librerías de Google API
+• Ejecuta el programa
+
+
+📦 ARCHIVOS INCLUIDOS:
+─────────────────────────────────────────────────────────────────────────────
+• glosas_file_downloader.py  → Script principal del programa
+• credentials.json           → Credenciales de Google API
+• lanzador_linux.sh          → Script de lanzamiento automático
+• README_LINUX.md            → Documentación completa
+• INSTRUCCIONES_RAPIDAS.txt  → Este archivo
+
+
+⚠️ IMPORTANTE:
+─────────────────────────────────────────────────────────────────────────────
+• La primera vez que ejecutes el programa se abrirá el navegador para
+  autenticarte con la cuenta de Gmail: glosasydevoluciones@correohuv.gov.co
+  
+• Los archivos descargados se guardarán en tu Escritorio en formato ZIP
+
+
+🔧 SOLUCIÓN DE PROBLEMAS:
+─────────────────────────────────────────────────────────────────────────────
+
+Error: "Permission denied"
+Solución: chmod +x lanzador_linux.sh
+
+Error: "python3: command not found"
+Solución: sudo apt install python3
+
+Para más ayuda, consulta README_LINUX.md
+
+
+═══════════════════════════════════════════════════════════════════════════════
+    Hospital Universitario del Valle
+    Innovación y Desarrollo
+    innovacionydesarrollo@correohuv.gov.co
+═══════════════════════════════════════════════════════════════════════════════

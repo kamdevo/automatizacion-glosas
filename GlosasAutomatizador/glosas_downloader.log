@@ -1,0 +1,22 @@
+2025-12-18 16:46:44,260 - INFO - ============================================================
+2025-12-18 16:46:44,260 - INFO - INICIANDO DESCARGADOR DE GLOSAS - HUV
+2025-12-18 16:46:44,260 - INFO - ============================================================
+2025-12-18 16:46:44,260 - INFO - Directorio de datos: ./GlosasAutomatizador
+2025-12-18 16:46:44,260 - INFO - Archivo de log: ./GlosasAutomatizador/glosas_downloader.log
+2025-12-18 16:49:54,700 - INFO - Remitente ingresado: tecnologia.sistemas.cali@correounivalle.edu.co
+2025-12-18 16:49:54,707 - INFO - Palabra clave ingresada: cursos
+2025-12-18 16:49:54,707 - INFO - Abriendo ventana de selección de fechas...
+2025-12-18 16:49:54,707 - INFO - Iniciando creación de ventana de fechas...
+2025-12-18 16:49:54,707 - INFO - Toplevel creado
+2025-12-18 16:49:54,708 - INFO - Propiedades básicas de ventana establecidas
+2025-12-18 16:49:54,708 - INFO - Atributo topmost establecido
+2025-12-18 16:49:54,722 - INFO - Ventana centrada en posición: 1393, 380
+2025-12-18 16:49:54,814 - INFO - Esperando interacción del usuario con ventana de fechas...
+2025-12-18 16:50:14,476 - INFO - Usuario seleccionó fechas: 26/11/2025 - 18/12/2025
+2025-12-18 16:50:14,485 - INFO - Fechas validadas: 2025/11/26 - 2025/12/18
+2025-12-18 16:50:14,492 - INFO - Ventana de fechas cerrada por usuario
+2025-12-18 16:50:14,493 - INFO - Fechas seleccionadas correctamente: {'desde': '2025/11/26', 'hasta': '2025/12/18'}
+2025-12-18 16:50:14,493 - INFO - Rango de fechas seleccionado: 2025/11/26 a 2025/12/18
+2025-12-18 16:50:18,919 - INFO - Iniciando procesamiento de correos de: tecnologia.sistemas.cali@correounivalle.edu.co
+2025-12-18 16:50:18,919 - INFO - Iniciando proceso de autenticación...
+2025-12-18 16:50:18,919 - INFO - Iniciando flujo de autenticación OAuth2...

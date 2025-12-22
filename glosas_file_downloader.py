@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Descarga automática de adjuntos con 'GLOSAS' desde Gmail y compresión en ZIP.
+Descarga automática de adjuntos con cualquier término desde Gmail y compresión en ZIP.
 - Evita repetir descargas (usa processed_ids.json)
 - Añade pausas automáticas para no superar límites
 - Comprime todos los archivos descargados en un archivo ZIP
@@ -89,7 +89,7 @@ class ProgressWindow:
         # Subtítulo
         subtitle_label = tk.Label(
             header_frame,
-            text="Descargador Automático de GLOSAS",
+            text="Descargador Automático de Archivos",
             font=('Segoe UI', 16, 'bold'),
             fg='white',
             bg='#1976D2'
@@ -602,8 +602,8 @@ def create_zip_file(downloaded_files):
         logging.error(f"Error al crear archivo ZIP: {e}")
         raise Exception(f"Error al crear archivo ZIP: {str(e)}")
 
-def process_emails(remitente, fecha_desde=None, fecha_hasta=None, parent_window=None):
-    """Procesa correos del remitente y descarga archivos con 'GLOSAS' en el nombre"""
+def process_emails(remitente, keyword, fecha_desde=None, fecha_hasta=None, parent_window=None):
+    """Procesa correos del remitente y descarga archivos con la palabra clave en el nombre"""
     progress_window = None
     try:
         logging.info(f"Iniciando procesamiento de correos de: {remitente}")
@@ -678,10 +678,10 @@ def process_emails(remitente, fecha_desde=None, fecha_hasta=None, parent_window=
 
                 parts = get_parts(msg_data.get('payload', {}))
 
-                # Buscar archivos con 'GLOSAS' en el nombre
+                # Buscar archivos con la palabra clave en el nombre
                 for part in parts:
                     filename = part.get('filename', '')
-                    if filename and 'GLOSAS' in filename.upper():
+                    if filename and keyword in filename.upper():
                         logging.info(f"Archivo encontrado: {filename}")
 
                         # Actualizar UI con el archivo actual
@@ -802,14 +802,22 @@ if __name__ == "__main__":
             parent=root
         )
 
-        if not remitente:
+        keyword = simpledialog.askstring(
+            "Descargador de GLOSAS",
+            "Ingresa la palabra clave:",
+            parent=root
+        )
+
+        if not remitente or not keyword:
             logging.info("Usuario canceló: no se ingresó correo")
             messagebox.showwarning("Cancelado", "No se ingresó ningún correo")
             root.destroy()
             sys.exit(0)
 
         remitente = remitente.strip()
+        keyword = keyword.strip()
         logging.info(f"Remitente ingresado: {remitente}")
+        logging.info(f"Palabra clave ingresada: {keyword}")
 
         # Obtener fechas
         fechas = get_date_range(root)
@@ -834,7 +842,7 @@ if __name__ == "__main__":
         )
 
         # Procesar emails
-        process_emails(remitente, fechas['desde'], fechas['hasta'], root)
+        process_emails(remitente, keyword, fechas['desde'], fechas['hasta'], root)
 
     except Exception as e:
         error_details = traceback.format_exc()
