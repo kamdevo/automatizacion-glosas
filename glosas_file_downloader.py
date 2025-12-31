@@ -559,8 +559,8 @@ def download_attachment(service, msg_id, part, msg_date=None):
         logging.error(f"Error al descargar adjunto {filename}: {e}")
         return None
 
-def create_zip_file(downloaded_files):
-    """Crea un archivo ZIP con estructura de carpetas organizadas por mes y semana"""
+def create_zip_file(downloaded_files, keyword):
+    """Crea un archivo ZIP con estructura de carpetas organizadas por mes y semana, usando la palabra clave en el nombre"""
     if not downloaded_files:
         logging.info("No hay archivos para comprimir")
         return None
@@ -570,7 +570,9 @@ def create_zip_file(downloaded_files):
         desktop = os.path.join(os.path.expanduser('~'), 'Desktop')
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        zip_filename = f"GLOSAS_{timestamp}.zip"
+        # Limpiar la palabra clave para nombre de archivo
+        safe_keyword = re.sub(r'[^A-Za-z0-9_-]', '', keyword.upper())
+        zip_filename = f"{safe_keyword}_{timestamp}.zip"
         zip_path = os.path.join(desktop, zip_filename)
 
         logging.info(f"Creando archivo ZIP con estructura de carpetas: {zip_filename}")
@@ -730,7 +732,7 @@ def process_emails(remitente, keyword, fecha_desde=None, fecha_hasta=None, paren
 
         # Crear archivo ZIP con estructura de carpetas
         if downloaded_files:
-            zip_path = create_zip_file(downloaded_files)
+            zip_path = create_zip_file(downloaded_files, keyword)
             if progress_window:
                 progress_window.close()
 
