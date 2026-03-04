@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo Compilador de GLOSAS Automatizador
+echo Compilador de AutomatizadorAdjuntos
 echo Hospital Universitario del Valle
 echo ========================================
 echo.
@@ -20,7 +20,7 @@ echo.
 echo [2/3] Limpiando compilaciones anteriores...
 if exist "dist" rmdir /s /q "dist"
 if exist "build" rmdir /s /q "build"
-if exist "glosas_file_downloader.spec" del /q "glosas_file_downloader.spec"
+if exist "AutomatizadorAdjuntos.spec" del /q "AutomatizadorAdjuntos.spec"
 
 echo.
 echo [3/3] Compilando ejecutable con PyInstaller...
@@ -28,7 +28,7 @@ pyinstaller --noconfirm ^
     --onefile ^
     --windowed ^
     --icon=NONE ^
-    --name="GlosasAutomatizador" ^
+    --name="AutomatizadorAdjuntos" ^
     --add-data="credentials.json;." ^
     --hidden-import=pkg_resources.py2_warn ^
     --hidden-import=google.auth ^
@@ -39,16 +39,16 @@ pyinstaller --noconfirm ^
     --collect-all=google ^
     --collect-all=googleapiclient ^
     --collect-all=google_auth_oauthlib ^
-    glosas_file_downloader.py
+    file_downloader.py
 
 echo.
-if exist "dist\GlosasAutomatizador.exe" (
+if exist "dist\AutomatizadorAdjuntos.exe" (
     echo ========================================
     echo   COMPILACION EXITOSA!
     echo ========================================
     echo.
     echo El ejecutable se encuentra en:
-    echo   dist\GlosasAutomatizador.exe
+    echo   dist\AutomatizadorAdjuntos.exe
     echo.
     echo IMPORTANTE: Para distribuir el programa:
     echo 1. Copia el archivo dist\GlosasAutomatizador.exe

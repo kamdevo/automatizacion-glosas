@@ -16,11 +16,11 @@ from googleapiclient.discovery import build
 import tkinter as tk
 from tkinter import simpledialog, messagebox, ttk
 
-APPDATA_DIR = os.path.join(os.getenv('LOCALAPPDATA', '.'), 'GlosasAutomatizador')
+APPDATA_DIR = os.path.join(os.getenv('LOCALAPPDATA', '.'), 'AutomatizadorAdjuntos')
 os.makedirs(APPDATA_DIR, exist_ok=True)
 
 # Configuración de logging
-LOG_FILE = os.path.join(APPDATA_DIR, 'glosas_downloader.log')
+LOG_FILE = os.path.join(APPDATA_DIR, 'adjuntos_downloader.log')
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -440,7 +440,9 @@ def get_date_range(parent_window):
         return None
 
 def load_processed_ids():
-    """Carga los IDs de correos ya procesados desde el archivo JSON"""
+    """Carga los IDs de correos ya procesados desde el archivo JSON.
+    Los IDs se guardan como 'keyword:msg_id' para que cada término de
+    búsqueda tenga su propio historial independiente."""
     if os.path.exists(PROCESSED_FILE):
         try:
             with open(PROCESSED_FILE, 'r', encoding='utf-8') as f:
@@ -462,7 +464,7 @@ def load_processed_ids():
     return set()
 
 def save_processed_ids(ids):
-    """Guarda los IDs de correos procesados en el archivo JSON"""
+    """Guarda los IDs de correos procesados en el archivo JSON."""
     try:
         with open(PROCESSED_FILE, 'w', encoding='utf-8') as f:
             json.dump(list(ids), f, indent=2)
@@ -614,8 +616,11 @@ def process_emails(remitente, keyword, fecha_desde=None, fecha_hasta=None, paren
         creds = get_credentials()
         gmail = build('gmail', 'v1', credentials=creds)
 
-        # Cargar IDs ya procesados
+        # Cargar IDs ya procesados.
+        # Los IDs se almacenan como "KEYWORD:msg_id" para que cambiar la
+        # palabra clave siempre realice un escaneo completamente nuevo.
         processed_ids = load_processed_ids()
+        keyword_upper = keyword.strip().upper()
 
         # Construir query de búsqueda
         query = f"from:{remitente} has:attachment"
@@ -663,9 +668,10 @@ def process_emails(remitente, keyword, fecha_desde=None, fecha_hasta=None, paren
                     progress_window.update_status(f"Procesando mensajes ({processed_count}/{total_messages})...")
                     progress_window.update_progress(processed_count, total_messages)
 
-                # Saltar si ya fue procesado
-                if msg_id in processed_ids:
-                    logging.debug(f"Mensaje {msg_id} ya procesado, saltando...")
+                # Saltar si este mensaje ya fue procesado con esta misma keyword
+                processed_key = f"{keyword_upper}:{msg_id}"
+                if processed_key in processed_ids:
+                    logging.debug(f"Mensaje {msg_id} ya procesado para keyword '{keyword_upper}', saltando...")
                     continue
 
                 # Obtener detalles del mensaje
@@ -700,7 +706,8 @@ def process_emails(remitente, keyword, fecha_desde=None, fecha_hasta=None, paren
                             if progress_window:
                                 progress_window.update_files(len(downloaded_files))
 
-                new_processed.add(msg_id)
+                # Guardar con la clave compuesta "KEYWORD:msg_id"
+                new_processed.add(f"{keyword_upper}:{msg_id}")
 
                 # Pausa ligera para evitar límites de la API
                 time.sleep(0.3)

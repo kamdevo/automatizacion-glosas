@@ -1,0 +1,78 @@
+================================================================================
+                 DESCARGADOR DE GLOSAS - HUV
+          Hospital Universitario del Valle
+================================================================================
+
+COMO USAR ESTE PROGRAMA:
+========================
+
+1. Asegurate de tener estos DOS archivos en la MISMA carpeta:
+   - GlosasAutomatizador.exe
+   - credentials.json
+
+2. Haz doble clic en GlosasAutomatizador.exe
+
+3. Sigue las instrucciones en pantalla:
+   - Ingresa: glosasydevoluciones@correohuv.gov.co
+   - Selecciona las fechas que deseas buscar
+   - Espera a que termine
+
+4. LA PRIMERA VEZ que uses el programa:
+   - Se abrira tu navegador
+   - Inicia sesion con tu cuenta de Gmail del hospital
+   - Da clic en "Permitir" para autorizar el acceso
+   - Esta autorizacion se guarda y no la volveran a pedir
+
+5. Cuando termine, encontraras un archivo ZIP en tu ESCRITORIO con:
+   - Carpetas por mes: 2025-Noviembre
+   - Carpetas por semana: Semana_47
+   - Archivos con fecha: 2025-11-24_archivo.pdf
+
+
+IMPORTANTE:
+===========
+
+- Este programa es SEGURO y solo puede LEER tus correos
+- NO puede enviar, borrar o modificar correos
+- Solo descarga archivos que tengan "GLOSAS" en el nombre
+- Guarda un historial de lo que ya descargo para no repetir
+
+NOTAS:
+======
+
+- El programa funciona en cualquier PC con Windows
+- NO necesitas instalar Python ni ningun otro programa
+- Los archivos temporales se guardan en:
+  C:\Users\TU_USUARIO\AppData\Local\GlosasAutomatizador\
+
+- El archivo de log (para revisar errores) esta en:
+  C:\Users\TU_USUARIO\AppData\Local\GlosasAutomatizador\glosas_downloader.log
+
+
+PROBLEMAS COMUNES:
+==================
+
+Si aparece "No se encontro credentials.json":
+  -> Verifica que el archivo credentials.json este en la misma carpeta
+
+Si no descarga nada:
+  -> Verifica que pusiste el correo correcto
+  -> Verifica que las fechas sean correctas
+  -> Verifica que tengas acceso a esos correos
+
+Si aparece error de autenticacion:
+  -> Cierra el programa
+  -> Ve a C:\Users\TU_USUARIO\AppData\Local\GlosasAutomatizador\
+  -> Elimina el archivo token.json
+  -> Vuelve a abrir el programa
+
+
+SOPORTE:
+========
+Innovacion y Desarrollo HUV
+innovacionydesarrollo@correohuv.gov.co
+
+
+Para mas detalles, lee el archivo INSTRUCCIONES.txt
+
+================================================================================
