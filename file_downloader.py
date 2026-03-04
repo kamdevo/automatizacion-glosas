@@ -687,9 +687,10 @@ def process_emails(remitente, keyword, fecha_desde=None, fecha_hasta=None, paren
                 parts = get_parts(msg_data.get('payload', {}))
 
                 # Buscar archivos con la palabra clave en el nombre
+                msg_had_downloads = False
                 for part in parts:
                     filename = part.get('filename', '')
-                    if filename and keyword in filename.upper():
+                    if filename and keyword_upper in filename.upper():
                         logging.info(f"Archivo encontrado: {filename}")
 
                         # Actualizar UI con el archivo actual
@@ -700,14 +701,16 @@ def process_emails(remitente, keyword, fecha_desde=None, fecha_hasta=None, paren
                         path = download_attachment(gmail, msg_id, part, msg_date)
                         if path:
                             downloaded_files.append(path)
+                            msg_had_downloads = True
                             logging.info(f"Descargado: {filename}")
 
                             # Actualizar contador de archivos
                             if progress_window:
                                 progress_window.update_files(len(downloaded_files))
 
-                # Guardar con la clave compuesta "KEYWORD:msg_id"
-                new_processed.add(f"{keyword_upper}:{msg_id}")
+                # Solo marcar como procesado si realmente se descargaron archivos
+                if msg_had_downloads:
+                    new_processed.add(f"{keyword_upper}:{msg_id}")
 
                 # Pausa ligera para evitar límites de la API
                 time.sleep(0.3)
@@ -803,55 +806,85 @@ if __name__ == "__main__":
             "✓ Archivos con fecha en el nombre\n\n"
             f"Log: {os.path.basename(LOG_FILE)}"
         )
-        
-        # Obtener remitente
-        remitente = simpledialog.askstring(
-            "Descargador de ADJUNTOS",
-            "Ingresa el correo del remitente:",
-            parent=root
-        )
 
-        keyword = simpledialog.askstring(
-            "Descargador de adjuntos",
-            "Ingresa la palabra clave:",
-            parent=root
-        )
+        # Bucle principal: permite al usuario repetir la operación
+        while True:
+            # Obtener remitente
+            remitente = simpledialog.askstring(
+                "Descargador de ADJUNTOS",
+                "Ingresa el correo del remitente:",
+                parent=root
+            )
 
-        if not remitente or not keyword:
-            logging.info("Usuario canceló: no se ingresó correo")
-            messagebox.showwarning("Cancelado", "No se ingresó ningún correo")
-            root.destroy()
-            sys.exit(0)
+            keyword = simpledialog.askstring(
+                "Descargador de adjuntos",
+                "Ingresa la palabra clave:",
+                parent=root
+            )
 
-        remitente = remitente.strip()
-        keyword = keyword.strip()
-        logging.info(f"Remitente ingresado: {remitente}")
-        logging.info(f"Palabra clave ingresada: {keyword}")
+            if not remitente or not keyword:
+                logging.info("Usuario canceló: no se ingresó correo")
+                messagebox.showwarning("Cancelado", "No se ingresó ningún correo")
+                break
 
-        # Obtener fechas
-        fechas = get_date_range(root)
-        if not fechas:
-            logging.info("Usuario canceló: no se seleccionaron fechas")
-            messagebox.showwarning("Cancelado", "Operación cancelada por el usuario")
-            root.destroy()
-            sys.exit(0)
+            remitente = remitente.strip()
+            keyword = keyword.strip()
+            logging.info(f"Remitente ingresado: {remitente}")
+            logging.info(f"Palabra clave ingresada: {keyword}")
 
-        logging.info(f"Rango de fechas seleccionado: {fechas['desde']} a {fechas['hasta']}")
+            # Obtener fechas
+            fechas = get_date_range(root)
+            if not fechas:
+                logging.info("Usuario canceló: no se seleccionaron fechas")
+                messagebox.showwarning("Cancelado", "Operación cancelada por el usuario")
+                break
 
-        # Mensaje de procesamiento con mejor formato
-        messagebox.showinfo(
-            "🔍 Iniciando Búsqueda - HUV",
-            f"📧 Remitente: {remitente}\n\n"
-            f"📅 Período de búsqueda:\n"
-            f"   • Desde: {fechas['desde']}\n"
-            f"   • Hasta: {fechas['hasta']}\n\n"
-            "⏳ Esto puede tomar unos momentos...\n\n"
-            "🌐 Se abrirá tu navegador para autenticación\n"
-            "   de Gmail si es necesario."
-        )
+            logging.info(f"Rango de fechas seleccionado: {fechas['desde']} a {fechas['hasta']}")
 
-        # Procesar emails
-        process_emails(remitente, keyword, fechas['desde'], fechas['hasta'], root)
+            # Mensaje de procesamiento con mejor formato
+            messagebox.showinfo(
+                "🔍 Iniciando Búsqueda - HUV",
+                f"📧 Remitente: {remitente}\n\n"
+                f"📅 Período de búsqueda:\n"
+                f"   • Desde: {fechas['desde']}\n"
+                f"   • Hasta: {fechas['hasta']}\n\n"
+                "⏳ Esto puede tomar unos momentos...\n\n"
+                "🌐 Se abrirá tu navegador para autenticación\n"
+                "   de Gmail si es necesario."
+            )
+
+            # Procesar emails
+            process_emails(remitente, keyword, fechas['desde'], fechas['hasta'], root)
+
+            # Preguntar al usuario si quiere volver a ejecutar o salir
+            opcion = messagebox.askyesno(
+                "🔄 ¿Realizar otra operación? - HUV",
+                "¿Desea realizar otra descarga de adjuntos?\n\n"
+                "• Sí → Volver a buscar con otro remitente, palabra clave o fechas\n"
+                "       (se mantiene el historial de archivos ya descargados)\n\n"
+                "• No → Salir del programa\n"
+                "       (se limpia el historial para empezar fresco la próxima vez)"
+            )
+
+            if opcion:
+                logging.info("Usuario eligió realizar otra operación")
+                continue
+            else:
+                # Limpiar processed_ids al salir definitivamente
+                logging.info("Usuario eligió salir. Limpiando historial de procesados...")
+                try:
+                    if os.path.exists(PROCESSED_FILE):
+                        os.remove(PROCESSED_FILE)
+                        logging.info(f"Archivo de procesados eliminado: {PROCESSED_FILE}")
+                except Exception as e:
+                    logging.warning(f"No se pudo eliminar archivo de procesados: {e}")
+                messagebox.showinfo(
+                    "👋 Hasta luego - HUV",
+                    "Programa finalizado.\n\n"
+                    "✅ El historial de descargas ha sido limpiado.\n"
+                    "La próxima vez se realizará una búsqueda completamente nueva."
+                )
+                break
 
     except Exception as e:
         error_details = traceback.format_exc()
